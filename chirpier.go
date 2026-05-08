@@ -56,6 +56,12 @@ const (
 	LogLevelDebug
 )
 
+// SDK version and user agent
+const (
+	sdkVersion = "0.4.0"
+	userAgent  = "chirpier-go/" + sdkVersion
+)
+
 // Default configuration values used by the client
 const (
 	defaultRetries    = 10
@@ -736,6 +742,7 @@ func (c *Client) doJSON(ctx context.Context, method, endpoint string, payload an
 	}
 	req.Header.Set("Authorization", "Bearer "+c.apiKey)
 	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("User-Agent", userAgent)
 
 	resp, err := c.client.Do(req)
 	if err != nil {
@@ -1061,6 +1068,7 @@ func (c *Client) sendLogs(ctx context.Context, entries []Log) error {
 
 		req.Header.Set("Content-Type", "application/json")
 		req.Header.Set("Authorization", "Bearer "+c.apiKey)
+		req.Header.Set("User-Agent", userAgent)
 
 		resp, err := c.client.Do(req)
 		if err != nil {
